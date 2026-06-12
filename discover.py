@@ -13,8 +13,10 @@ Vendor: Apple
 '''
 
 from scapy.all import Ether, ARP, srp
+import socket
 
 def broadcast():
+    ip_lst = []
 
     # Scans every possible host on the local network
     target = "192.168.1.0/24"                                   # Router IP
@@ -35,13 +37,28 @@ def broadcast():
 
     # Processes every device that responded
     for sent, received in result:
-        print(f"IP: {received.psrc} -> MAC: {received.hwsrc}")  # psrc = protocol source (ip), hwsrc = hardware source (MAC)
+        ip_lst.append(received.psrc)
+        #print(f"IP: {received.psrc} -> MAC: {received.hwsrc}")  # psrc = protocol source (ip), hwsrc = hardware source (MAC)
 
+    return ip_lst
+
+def find_dev_host(ip_lst):
+    dev_num = 1
+    hostname = ""
     
+    for ip in ip_lst:
+        
+        try:
+            hostname = socket.gethostbyaddr(ip)[0]
+        except socket.herror:
+            hostname = "Unknown"
 
-def find_dev_host():
-    host = ""
-    pass
+        print(f"\n\nDevice {dev_num}: ")
+        print(f"\nHostname: {hostname}")
+        print(f"\nIP Address: {ip}")
+        
+        dev_num += 1
+
 
 def find_dev_ip():
     dev_ip = ""
@@ -51,15 +68,15 @@ def find_dev_MAC():
     dev_mac = ""
     pass
 
-def print_dev(host):
-    print("Hostname: %s", host)
+def print_dev():
     pass
 
 
 def main():
     print("\n=== Devices Found ===\n")
-    #print_dev()
-    broadcast()
+
+    ip_lst = broadcast()
+    find_dev_host(ip_lst)
 
 if __name__ == '__main__':
     main()
