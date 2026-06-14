@@ -4,7 +4,7 @@ A Python-based network monitoring tool that discovers devices connected to a loc
 
 ## Features
 
-# Current Features
+### Current Features
 
 * Discovers devices on the local network using ARP scanning
 * Displays:
@@ -55,15 +55,15 @@ MAC Address: 77:88:99:AA:BB:CC
 * Reverse DNS Lookups
 
 
-# Installation
+### Installation
 
 Clone the repository:
+https://github.com/ElizabethAce/Local-Network-Security-Monitor.git
 
-
-# Install dependencies:
+### Install dependencies:
 python3 -m pip install scapy
 
-# Run:
+### Run:
 python3 discover.py
 
 
@@ -72,4 +72,4 @@ python3 discover.py
 This tool is intended only for monitoring networks that you own or have explicit permission to analyze. Unauthorized network monitoring may violate laws, policies, or terms of service.
 
 
-# Author: Elizabeth Acevedo
+## Author: Elizabeth Acevedo

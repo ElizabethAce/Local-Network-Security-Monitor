@@ -1,3 +1,6 @@
+## Version 0.2.2 - Updated README
+- Updated README
+
 ## Version 0.2.1 - Updated Device Display
 - MAC addresses are printed under each device displayed
 - Updated README
