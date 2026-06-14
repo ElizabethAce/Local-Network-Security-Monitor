@@ -1,3 +1,8 @@
+## Version 0.2.1 - Updated Device Display
+- MAC addresses are printed under each device displayed
+- Updated README
+- Used zip() function (which pairs up the first items together, then the second items together, and so on) to display ip and MAC addresses
+
 ## Version 0.2.0 - Devices connected to local network, now list their hostname
 - Hostnames are printed for each device aling with their ip address
 - A different method may be used to achieve higher success in hostname collection.

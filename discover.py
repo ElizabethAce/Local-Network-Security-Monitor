@@ -17,6 +17,7 @@ import socket
 
 def broadcast():
     ip_lst = []
+    mac_lst = []
 
     # Scans every possible host on the local network
     target = "192.168.1.0/24"                                   # Router IP
@@ -38,15 +39,17 @@ def broadcast():
     # Processes every device that responded
     for sent, received in result:
         ip_lst.append(received.psrc)
+        mac_lst.append(received.hwsrc)
         #print(f"IP: {received.psrc} -> MAC: {received.hwsrc}")  # psrc = protocol source (ip), hwsrc = hardware source (MAC)
 
-    return ip_lst
+    return ip_lst, mac_lst
 
-def find_dev_host(ip_lst):
+'''Finds hostname'''
+def find_dev_host(ip_lst, mac_lst):
     dev_num = 1
     hostname = ""
     
-    for ip in ip_lst:
+    for ip, mac in zip(ip_lst, mac_lst):
         
         try:
             hostname = socket.gethostbyaddr(ip)[0]
@@ -56,17 +59,11 @@ def find_dev_host(ip_lst):
         print(f"\n\nDevice {dev_num}: ")
         print(f"\nHostname: {hostname}")
         print(f"\nIP Address: {ip}")
+        print(f"\nMAC Address: {mac}")
         
         dev_num += 1
 
 
-def find_dev_ip():
-    dev_ip = ""
-    pass
-
-def find_dev_MAC():
-    dev_mac = ""
-    pass
 
 def print_dev():
     pass
@@ -75,8 +72,8 @@ def print_dev():
 def main():
     print("\n=== Devices Found ===\n")
 
-    ip_lst = broadcast()
-    find_dev_host(ip_lst)
+    ip_lst, mac_lst = broadcast()
+    find_dev_host(ip_lst, mac_lst)
 
 if __name__ == '__main__':
     main()
