@@ -1,3 +1,7 @@
+## Version 0.2.3 - Code clean-up
+- Commented code in discovery.py
+- Created function specific to printing output on terminal
+
 ## Version 0.2.2 - Updated README
 - Updated README
 

@@ -38,42 +38,47 @@ def broadcast():
 
     # Processes every device that responded
     for sent, received in result:
-        ip_lst.append(received.psrc)
-        mac_lst.append(received.hwsrc)
-        #print(f"IP: {received.psrc} -> MAC: {received.hwsrc}")  # psrc = protocol source (ip), hwsrc = hardware source (MAC)
-
+        ip_lst.append(received.psrc)                            # Store discovered IP addresses for hostname lookup later
+        mac_lst.append(received.hwsrc)                          # Store discovered MAC addresses for device display later
+                                                                 # psrc = protocol source (ip), hwsrc = hardware source (MAC)
     return ip_lst, mac_lst
 
-'''Finds hostname'''
+'''Performs a reverse DNS lookup on each discovered 
+IP address and displays the hostname, IP address, and MAC address.'''
 def find_dev_host(ip_lst, mac_lst):
-    dev_num = 1
-    hostname = ""
+    dev_num = 1                             # Device counter variable for user-friendly output
+    hostname = ""                           # Empty hostname
     
+    # Iterates through matching IP and MAC addresses simultaneously
     for ip, mac in zip(ip_lst, mac_lst):
         
         try:
+            # Attempt reverse DNS lookup:
+            # Given an IP address, retrieve the associated hostname
             hostname = socket.gethostbyaddr(ip)[0]
+
         except socket.herror:
+            # Devices that don't provide hostname information
             hostname = "Unknown"
 
+        # Display device information
         print(f"\n\nDevice {dev_num}: ")
+
         print(f"\nHostname: {hostname}")
         print(f"\nIP Address: {ip}")
         print(f"\nMAC Address: {mac}")
         
-        dev_num += 1
+        dev_num += 1                        # Move to next device number for display
 
-
-
-def print_dev():
-    pass
-
-
-def main():
+def print_devs():
     print("\n=== Devices Found ===\n")
 
     ip_lst, mac_lst = broadcast()
     find_dev_host(ip_lst, mac_lst)
+
+def main():
+    print_devs()
+    
 
 if __name__ == '__main__':
     main()
