@@ -14,6 +14,7 @@ Vendor: Apple
 
 from scapy.all import Ether, ARP, srp
 import socket
+import datetime
 
 def broadcast():
     ip_lst = []
@@ -45,7 +46,7 @@ def broadcast():
 
 '''Performs a reverse DNS lookup on each discovered 
 IP address and displays the hostname, IP address, and MAC address.'''
-def find_dev_host(ip_lst, mac_lst):
+def find_dev_host(ip_lst, mac_lst, timestamp):
     dev_num = 1                             # Device counter variable for user-friendly output
     hostname = ""                           # Empty hostname
     
@@ -67,6 +68,7 @@ def find_dev_host(ip_lst, mac_lst):
         print(f"\nHostname: {hostname}")
         print(f"\nIP Address: {ip}")
         print(f"\nMAC Address: {mac}")
+        print(f"\nTime: {timestamp}")
         
         dev_num += 1                        # Move to next device number for display
 
@@ -74,7 +76,14 @@ def print_devs():
     print("\n=== Devices Found ===\n")
 
     ip_lst, mac_lst = broadcast()
-    find_dev_host(ip_lst, mac_lst)
+    timestamp = date_time()
+    find_dev_host(ip_lst, mac_lst, timestamp)
+
+def date_time():
+    day_time = datetime.datetime.now()
+    timestamp = day_time.strftime("%m-%d-%Y   %I:%M:%S %p")
+    return timestamp
+
 
 def main():
     print_devs()

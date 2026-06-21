@@ -1,3 +1,8 @@
+## Version 0.2.4 - Discover Devices (Now with Timestamp)
+- Created network_monitor.py
+- Created first draft of what will create a database - unfinished
+- Added timestamp feature when discovering devices on network
+
 ## Version 0.2.3 - Code clean-up
 - Commented code in discovery.py
 - Created function specific to printing output on terminal
