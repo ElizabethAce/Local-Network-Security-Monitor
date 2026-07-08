@@ -11,12 +11,15 @@ MAC: AA:BB:CC:DD:EE:FF
 Vendor: Apple
 
 '''
-
+# IMPORTS
 from scapy.all import Ether, ARP, srp
 import socket
 import datetime
+import network_monitor
 
-def broadcast():
+'''Performs an ARP request asking connected devices to return their MAC address 
+and collects what IP belongs to what device'''
+def discover_devices():
     ip_lst = []
     mac_lst = []
 
@@ -35,10 +38,10 @@ def broadcast():
     # Sends packet and wait up to 3 secs for replies
     # srp() returns:
     #   [0] = answered requests
-    result = srp(packet, timeout=3, verbose=True)[0]      
+    responses = srp(packet, timeout=3, verbose=True)[0]      
 
     # Processes every device that responded
-    for sent, received in result:
+    for sent, received in responses:
         ip_lst.append(received.psrc)                            # Store discovered IP addresses for hostname lookup later
         mac_lst.append(received.hwsrc)                          # Store discovered MAC addresses for device display later
                                                                  # psrc = protocol source (ip), hwsrc = hardware source (MAC)
@@ -46,38 +49,47 @@ def broadcast():
 
 '''Performs a reverse DNS lookup on each discovered 
 IP address and displays the hostname, IP address, and MAC address.'''
-def find_dev_host(ip_lst, mac_lst, timestamp):
-    dev_num = 1                             # Device counter variable for user-friendly output
+def find_dev_host(ip):
     hostname = ""                           # Empty hostname
     
+    try:
+        # Attempt reverse DNS lookup:
+        # Given an IP address, retrieve the associated hostname
+        hostname = socket.gethostbyaddr(ip)[0]
+
+    except socket.herror:
+        # Devices that don't provide hostname information
+        hostname = "Unknown"
+
+    return hostname
+        
+'''Processes every discovered device'''
+def process_devices(cursor):
+    ip_lst, mac_lst = discover_devices()
+
+    timestamp = date_time()
+
+    dev_num = 1
+
     # Iterates through matching IP and MAC addresses simultaneously
     for ip, mac in zip(ip_lst, mac_lst):
-        
-        try:
-            # Attempt reverse DNS lookup:
-            # Given an IP address, retrieve the associated hostname
-            hostname = socket.gethostbyaddr(ip)[0]
+        hostname = find_dev_host(ip)
 
-        except socket.herror:
-            # Devices that don't provide hostname information
-            hostname = "Unknown"
+        #display_devs(dev_num, hostname, ip, mac, timestamp)
+        network_monitor.save_device(cursor, hostname, mac, ip, timestamp)
+    
+        dev_num += 1
+     
 
-        # Display device information
-        print(f"\n\nDevice {dev_num}: ")
+'''Displays discovered devices'''
+def display_devs(dev_num, hostname, ip, mac, timestamp):
+    # Display device information
+    print(f"\n\nDevice {dev_num}: ")
 
-        print(f"\nHostname: {hostname}")
-        print(f"\nIP Address: {ip}")
-        print(f"\nMAC Address: {mac}")
-        print(f"\nTime: {timestamp}")
-        
-        dev_num += 1                        # Move to next device number for display
-
-def print_devs():
-    print("\n=== Devices Found ===\n")
-
-    ip_lst, mac_lst = broadcast()
-    timestamp = date_time()
-    find_dev_host(ip_lst, mac_lst, timestamp)
+    print(f"\nHostname: {hostname}")
+    print(f"\nIP Address: {ip}")
+    print(f"\nMAC Address: {mac}")
+    print(f"\nTime: {timestamp}")
 
 def date_time():
     day_time = datetime.datetime.now()
@@ -86,7 +98,12 @@ def date_time():
 
 
 def main():
-    print_devs()
+    connection, cursor = network_monitor.init_db()
+    timestamp = date_time()
+    #print("\n~~~~~~~~~~~~~~~~~~~~~~~~~DATABASE~~~~~~~~~~~~~~~~~~~~~~~~~")
+    #process_devices(cursor)
+    network_monitor.show_db(cursor, timestamp)
+    network_monitor.close_db(connection)
     
 
 if __name__ == '__main__':

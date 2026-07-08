@@ -1,3 +1,9 @@
+## Version 0.2.5 - Initial testing of saving discovered devices into a database
+- Cleaned up code in discover.py and restructured functions
+- discover.py now works alongside network_monitor
+- Database has been generated after first run
+- Issue to be solved: Database ouput doesn't show, check show_db()
+
 ## Version 0.2.4 - Discover Devices (Now with Timestamp)
 - Created network_monitor.py
 - Created first draft of what will create a database - unfinished
