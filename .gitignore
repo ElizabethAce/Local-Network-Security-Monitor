@@ -1,0 +1,12 @@
+# This file is used to ignore specific files when uploaded onto GitHub
+# All databases and others mentioned here will not appear on GitHub
+
+# SQLite databases
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS Finder files
+.DS_Store

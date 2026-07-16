@@ -1,3 +1,17 @@
+## Version 0.2.8 - Small cleanup changes on code
+- Removed commented out lines that were not used
+- Uncommented line that was not uncommented before
+- Created a function to clear database data not entire database
+
+## Version 0.2.7 - Remove generated files from repository
+- Code to process devices was commented the last push
+
+## Version 0.2.6 - Working database, .gitignore created, stop tracking database data
+- Database data now outputs on terminal
+- Created .gitignore file
+- Removed database from GitHub
+- Stop tracking database using git rm --cached netmonitor.db to delete off of GitHub not local computer
+
 ## Version 0.2.5 - Initial testing of saving discovered devices into a database
 - Cleaned up code in discover.py and restructured functions
 - discover.py now works alongside network_monitor

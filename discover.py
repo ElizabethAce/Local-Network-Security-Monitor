@@ -84,13 +84,13 @@ def process_devices(cursor):
 '''Displays discovered devices'''
 def display_devs(dev_num, hostname, ip, mac, timestamp):
     # Display device information
-    print(f"\n\nDevice {dev_num}: ")
-
+    print(f"\n\nDevice{dev_num}: ")
     print(f"\nHostname: {hostname}")
     print(f"\nIP Address: {ip}")
     print(f"\nMAC Address: {mac}")
     print(f"\nTime: {timestamp}")
 
+'''Collects current time and date'''
 def date_time():
     day_time = datetime.datetime.now()
     timestamp = day_time.strftime("%m-%d-%Y   %I:%M:%S %p")
@@ -100,8 +100,8 @@ def date_time():
 def main():
     connection, cursor = network_monitor.init_db()
     timestamp = date_time()
-    #print("\n~~~~~~~~~~~~~~~~~~~~~~~~~DATABASE~~~~~~~~~~~~~~~~~~~~~~~~~")
-    #process_devices(cursor)
+    process_devices(cursor)
+    #network_monitor.clear_database(cursor)
     network_monitor.show_db(cursor, timestamp)
     network_monitor.close_db(connection)
     

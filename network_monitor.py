@@ -59,7 +59,7 @@ def show_db(cursor, timestamp):
     for row in rows:
         device_id, hostname, mac, ip, timestamp = row
 
-        print(f"\nDevice ID: {device_id}")
+        print(f"\nDevice: {device_id}")
         print(f"Hostname: {hostname}")
         print(f"MAC Address: {mac}")
         print(f"IP Address: {ip}")
