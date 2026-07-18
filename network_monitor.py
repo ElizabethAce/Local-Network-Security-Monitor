@@ -26,7 +26,8 @@ def init_db():
             Hostname TEXT NOT NULL,
             MAC_Address TEXT UNIQUE NOT NULL,
             IP_Address TEXT NOT NULL,
-            First_Seen TEXT NOT NULL
+            First_Seen TEXT NOT NULL,
+            Last_Seen TEXT NOT NULL
         )
     """)
 
@@ -44,10 +45,11 @@ def save_device(cursor, hostname, mac, ip, timestamp):
             MAC_Address, 
             IP_Address, 
             First_Seen
+            Last_Seen
         )
         VALUES (?, ?, ?, ?)
         """,
-        (hostname, mac, ip, timestamp)
+        (hostname, mac, ip, timestamp, timestamp)
     )
 
 
@@ -64,6 +66,7 @@ def show_db(cursor, timestamp):
         print(f"MAC Address: {mac}")
         print(f"IP Address: {ip}")
         print(f"First Seen: {timestamp}\n")
+        print(f"Last Seen: {timestamp}\n")
 
 
 def clear_database(cursor):
