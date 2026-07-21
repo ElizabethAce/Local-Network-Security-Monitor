@@ -1,3 +1,7 @@
+## Version 0.2.10 - Last Seen Timestamp Output is accurate
+
+## Version 0.2.9 - Last Seen Timestamp added to device save data
+
 ## Version 0.2.8 - Small cleanup changes on code
 - Removed commented out lines that were not used
 - Uncommented line that was not uncommented before

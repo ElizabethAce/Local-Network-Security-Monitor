@@ -37,8 +37,9 @@ def discover_devices():
 
     # Sends packet and wait up to 3 secs for replies
     # srp() returns:
-    #   [0] = answered requests
-    responses = srp(packet, timeout=3, verbose=True)[0]      
+    # verbose = True, prints detailed logs, packet summaries, and progress bars
+    # [0] = answered requests
+    responses = srp(packet, timeout=3, verbose=False)[0]      
 
     # Processes every device that responded
     for sent, received in responses:
@@ -76,7 +77,7 @@ def process_devices(cursor):
         hostname = find_dev_host(ip)
 
         #display_devs(dev_num, hostname, ip, mac, timestamp)
-        network_monitor.save_device(cursor, hostname, mac, ip, timestamp)
+        network_monitor.save_device(cursor, hostname, mac, ip, timestamp, timestamp)
     
         dev_num += 1
      
@@ -102,7 +103,7 @@ def main():
     timestamp = date_time()
     process_devices(cursor)
     #network_monitor.clear_database(cursor)
-    network_monitor.show_db(cursor, timestamp)
+    network_monitor.show_db(cursor)
     network_monitor.close_db(connection)
     
 
