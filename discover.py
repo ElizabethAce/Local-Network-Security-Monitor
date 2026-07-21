@@ -103,7 +103,7 @@ def main():
     timestamp = date_time()
     process_devices(cursor)
     #network_monitor.clear_database(cursor)
-    network_monitor.show_db(cursor, timestamp)
+    network_monitor.show_db(cursor)
     network_monitor.close_db(connection)
     
 

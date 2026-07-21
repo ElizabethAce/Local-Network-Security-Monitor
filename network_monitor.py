@@ -36,7 +36,7 @@ def init_db():
     return connection, cursor
 
 '''Stores a newly discovered device in the database.'''
-def save_device(cursor, hostname, mac, ip, timestamp):
+def save_device(cursor, hostname, mac, ip, first_seen, last_seen):
 
     cursor.execute(
         """
@@ -44,29 +44,29 @@ def save_device(cursor, hostname, mac, ip, timestamp):
             Hostname, 
             MAC_Address, 
             IP_Address, 
-            First_Seen
+            First_Seen,
             Last_Seen
         )
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?)
         """,
-        (hostname, mac, ip, timestamp, timestamp)
+        (hostname, mac, ip, first_seen, last_seen)
     )
 
 
 '''Displays every device currently stored in the database.'''
-def show_db(cursor, timestamp):
+def show_db(cursor):
     cursor.execute("SELECT * FROM devices")
     rows = cursor.fetchall()
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~DATABASE~~~~~~~~~~~~~~~~~~~~~~~~~")
     for row in rows:
-        device_id, hostname, mac, ip, timestamp = row
+        device_id, hostname, mac, ip, first_seen, last_seen = row
 
         print(f"\nDevice: {device_id}")
         print(f"Hostname: {hostname}")
         print(f"MAC Address: {mac}")
         print(f"IP Address: {ip}")
-        print(f"First Seen: {timestamp}\n")
-        print(f"Last Seen: {timestamp}\n")
+        print(f"First Seen: {first_seen}")
+        print(f"Last Seen: {last_seen}\n")
 
 
 def clear_database(cursor):
@@ -75,6 +75,7 @@ def clear_database(cursor):
     cursor.execute("DELETE FROM devices")
     cursor.execute("DELETE FROM sqlite_sequence WHERE name='devices'")
     print("Database cleared.")
+
 
 '''Saves database changes and closes the connection.'''
 def close_db(connection):
